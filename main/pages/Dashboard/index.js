@@ -38,7 +38,7 @@ function Dashboard() {
     if (['STARTED', 'PAUSED'].includes(state) && todayStatistics.enteringTime) {
       setGoingOutTime(
         new Date(
-          new Date().getTime() +
+          Date.now() +
             (8.5 * 60 * 60 * 1000 -
               timeToTimestamp(todayStatistics.timeConsumedToday) -
               Math.min(
@@ -54,9 +54,9 @@ function Dashboard() {
     const date = new Date();
     setData(await repository.getStatistics());
     let todayStats = await repository.getTodayStatistics(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
     );
     setTodayStatistics({
       enteringTime: todayStats.enteringTime,
@@ -106,13 +106,13 @@ function Dashboard() {
     const date = new Date();
     await repository.save(
       newState,
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      date.getHours(),
-      date.getMinutes(),
-      date.getSeconds(),
-      date.getMilliseconds(),
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      date.getUTCHours(),
+      date.getUTCMinutes(),
+      date.getUTCSeconds(),
+      date.getUTCMilliseconds(),
     );
     setState(newState);
   }

@@ -7,10 +7,10 @@ export function rebuildTime(time) {
   );
 
   return {
-    milliseconds: date.getMilliseconds(),
-    seconds: date.getSeconds(),
-    minutes: date.getMinutes(),
-    hours: date.getHours(),
+    milliseconds: date.getUTCMilliseconds(),
+    seconds: date.getUTCSeconds(),
+    minutes: date.getUTCMinutes(),
+    hours: date.getUTCHours(),
   };
 }
 

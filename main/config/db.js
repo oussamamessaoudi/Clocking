@@ -41,15 +41,15 @@ export const repository = {
     let enteringTime = null;
     let timeConsumedToday = {hours: 0, minutes: 0, seconds: 0, milliseconds: 0};
     let timeBreakToday = {hours: 0, minutes: 0, seconds: 0, milliseconds: 0};
-
     const date = new Date();
     results.push({
       state: 'ENDED',
-      hours: date.getHours(),
-      minutes: date.getMinutes(),
-      seconds: date.getSeconds(),
-      milliseconds: date.getMilliseconds(),
+      hours: date.getUTCHours(),
+      minutes: date.getUTCMinutes(),
+      seconds: date.getUTCSeconds(),
+      milliseconds: date.getUTCMilliseconds(),
     });
+
     for (let i = 0; i < results.length - 1; i++) {
       const actual = results[i];
       const next = results[i + 1];
@@ -89,9 +89,9 @@ export const repository = {
   },
   async getStatistics() {
     const results =
-      await db.executeSql(`SELECT state, year, month, day, hours, minutes, seconds, milliseconds
+      await db.executeSql(`SELECT state, year, month, day, hours , minutes , seconds, milliseconds
       FROM ${tableName}
-      ORDER BY year, month, day, hours, minutes, seconds, milliseconds`);
+      ORDER BY year desc, month desc, day desc, hours, minutes, seconds, milliseconds`);
 
     const groupingByAndCollect = [];
 
@@ -107,6 +107,7 @@ export const repository = {
         ) {
           dayStatistics.push(actual);
         } else {
+          dayStatistics.push(actual);
           let {timeConsumedToday, timeBreakToday} =
             this.buildStatistics(dayStatistics);
           dayStatistics = [];
